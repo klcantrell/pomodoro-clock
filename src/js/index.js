@@ -4,6 +4,8 @@ const elements = {
     },
   activate: document.getElementById("activate"),
   triangle: document.getElementById("triangle"),
+  circle: document.getElementById("circle"),
+  line: document.getElementById("line"),
   tenSecs: document.getElementById("ten"),
   hundredTwentySecs: document.getElementById("hundred-twenty"),
   reset: document.getElementById("reset"),
@@ -30,11 +32,13 @@ const elements = {
     this.tenSecs.addEventListener("click", function() {
         animator.reset();
         mainTimer.reset();
+        breakTimer.reset();
         mainTimer.setPreset(10);
       });
     this.hundredTwentySecs.addEventListener("click", function() {
         animator.reset();
         mainTimer.reset();
+        breakTimer.reset();
         mainTimer.setPreset(25);
       });
     this.reset.addEventListener("click", function() {
@@ -100,32 +104,50 @@ const eyeCandy = {
 }
 
 const animator = {
-  init: function(initValue){
-      this.tl.set("#triangle", {transformOrigin: "center 15%"});
-      this.setTweens(initValue);
-    },
-  tl: new TimelineMax(),
+  triangle: '',
+  circle: '',
+  line: '',
   reset: function() {
-      this.tl.pause(0);
+      this.triangle.stop();
+      this.circle.stop();
+      this.line.stop();
+      elements.triangle.style.transform = "rotate(0)";
+      elements.circle.style["stroke-dasharray"] = 0;
+      elements.circle.setAttribute("stroke", "rgba(71, 61, 255, 0.47)");
+      elements.line.setAttribute("stroke", "rgba(184, 184, 184, 0.79)");
     },
   play: function(minutes) {
     this.setTweens(minutes);
-    this.tl.play(0);
+    this.triangle.start();
+    this.circle.start();
+    this.line.start();
   },
   reverse: function(minutes) {
-    this.setTweens(minutes);
-    this.tl.seek(minutes * 60 - 1);
-    this.tl.reverse();
+    this.triangle.stop();
+    this.circle.stop();
+    this.line.stop();
+
+    let ms = minutes * 60000;
+    this.triangle = KUTE.fromTo("#triangle", {rotate: 360}, {rotate: 0}, {duration: ms, easing: "easingCubicOut"});
+    this.circle = KUTE.fromTo("#circle", {draw: "0% 0%", attr: {stroke: "rgba(214, 214, 214, 0.76)"}}, {draw: "0% 100%", attr: {stroke: "rgba(71, 61, 255, 0.47)"}}, {duration: ms < 60000 ? ms : 60000, repeat: minutes});
+    this.line = KUTE.fromTo("#line", {attr: {stroke: "rgba(71, 61, 255, 0.47)"}}, {attr: {stroke: "rgba(184, 184, 184, 0.79)"}}, {duration: 1000, repeat: (ms / 1000), yoyo: true});
+
+    this.triangle.start();
+    this.circle.start();
+    this.line.start();
   },
   setTweens: function(minutes) {
-    let seconds = minutes * 60;
-    this.reset();
-    this.tl.clear();
-    this.tl.addCallback(this.reset.bind(animator), seconds);
-    this.tl
-      .to("#triangle", seconds, {rotationZ:"360deg"}, 0)
-      .fromTo("#circle", seconds < 60 ? seconds : 60, {drawSVG:100, stroke: "hsla(243, 100%, 62%, 0.47)"}, {drawSVG:0, stroke: "hsla(0, 0%, 84%, 0.76)", repeat: -1}, 0)
-      .to("#line", 1, {stroke: "hsla(243, 100%, 62%, 0.47)", repeat: seconds - 1, yoyo: true}, 0);
+    let ms = minutes * 60000;
+    this.triangle = KUTE.fromTo("#triangle", {rotate: 0}, {rotate: 360}, {duration: ms, easing: "easingCubicOut"});
+    this.circle = KUTE.fromTo("#circle", {draw: "0% 100%", attr: {stroke: "rgba(71, 61, 255, 0.47)"}}, {draw: "0% 0%", attr: {stroke: "rgba(214, 214, 214, 0.76)"}}, {duration: ms < 60000 ? ms : 60000, repeat: minutes});
+    this.line = KUTE.fromTo("#line", {attr: {stroke: "rgba(184, 184, 184, 0.79)"}}, {attr: {stroke: "rgba(71, 61, 255, 0.47)"}}, {duration: 1000, repeat: (ms / 1000), yoyo: true});
+  },
+  init(initTime) {
+    elements.triangle.style.transform = "rotate(0)";
+    elements.circle.style["stroke-dasharray"] = 0;
+    elements.circle.setAttribute("stroke", "rgba(71, 61, 255, 0.47)");
+    elements.line.setAttribute("stroke", "rgba(184, 184, 184, 0.79)");
+    this.setTweens(25);
   }
 };
 
@@ -173,8 +195,13 @@ class Timer {
 		} else {
 			this.toggleInProgress();
 			this.toggleMessage();
-      animator.reverse(breakTimer.minutesRemaining);
-			breakTimer.run();
+      if (breakTimer.minutesRemaining) {
+        console.log(breakTimer.minutesRemaining);
+        animator.reverse(breakTimer.minutesRemaining);
+        breakTimer.run();
+      } else {
+        animator.reset();
+      }
 		}
 	}
 
@@ -300,9 +327,10 @@ class BreakTimer extends Timer {
   }
 }
 
-const mainTimer = new MainTimer(elements.minutes, elements.seconds, elements.workMessage);
-const breakTimer = new BreakTimer(elements.breakMinutes, elements.breakSeconds, elements.breakMessage);
+const mainTimer = new MainTimer(elements.minutes, elements.seconds, elements.workMessage),
+      breakTimer = new BreakTimer(elements.breakMinutes, elements.breakSeconds, elements.breakMessage),
+      initMainTimerMinutes = 25;
 
 elements.init();
-animator.init(25);
-mainTimer.init(25);
+mainTimer.init(initMainTimerMinutes);
+animator.init(initMainTimerMinutes);

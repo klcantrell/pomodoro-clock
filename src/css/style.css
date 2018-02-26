@@ -26,15 +26,21 @@ body, html {
   fill: hsla(337, 100%, 68%, 0.83);
 }
 
+#triangle {
+  transform-origin: 4px 290px;
+}
+
 .circle-minutes {
   fill: hsla(243, 100%, 62%, 0.47);
-  stroke: hsla(243, 100%, 62%, 0.47);
+  /* removed because overrode attribute manipulation */
+  /* stroke: hsla(243, 100%, 62%, 0.47); */
   stroke-width: 0.5;
 }
 
-.line-seconds {
+  /* removed because overrode attribute manipulation */
+/* .line-seconds {
   stroke: hsla(0, 0%, 50%, 0.79);
-}
+} */
 
 .message {
   position: absolute;
@@ -180,10 +186,10 @@ body, html {
   body {
     font-size: 0.75rem;
   }
-  
+
   .controls{
     transform: translateX(-50%) translateY(80%);
     -ms-transform: translateX(-67%) translateY(80%);
   }
-  
+
 }
