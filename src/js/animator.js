@@ -1,3 +1,7 @@
+import KUTE from 'kute.js';
+import 'kute.js/kute-svg';
+import 'kute.js/kute-attr';
+
 const animator = {
   deps: {
     view: ''
