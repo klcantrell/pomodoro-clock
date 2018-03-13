@@ -1,0 +1,22 @@
+{
+  "name": "Pomodoro-Clock",
+  "version": "1.0.0",
+  "description": "Kal's Pomodoro Clock",
+  "main": "./src/js/index.js",
+  "scripts": {
+    "start": "webpack --config webpack.config.js"
+  },
+  "author": "Kalalau Cantrell",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-minify-webpack-plugin": "^0.3.0",
+    "babel-preset-env": "^1.6.1",
+    "css-loader": "^0.28.7",
+    "extract-loader": "^1.0.2",
+    "file-loader": "^1.1.6",
+    "html-webpack-plugin": "^2.30.1",
+    "webpack": "^3.10.0"
+  }
+}

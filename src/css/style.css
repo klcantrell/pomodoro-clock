@@ -108,7 +108,7 @@ body, html {
   -ms-transform: scale(1.2);
 }
 
-.break-clock__adjuster--click {
+.break-clock__adjuster:active {
   background: hsla(176, 35%, 78%, 1);
 }
 
@@ -156,6 +156,10 @@ body, html {
   -ms-transform: scale(1.2);
 }
 
+.controls__btn:active {
+  background: hsla(214, 11%, 62%, 1);
+}
+
 .controls__adjuster {
   display: flex;
   margin: 2px;
@@ -174,7 +178,7 @@ body, html {
   -ms-transform: scale(1.2);
 }
 
-.btn--click {
+.controls__adjust-button:active {
   background: hsla(214, 11%, 62%, 1);
 }
 
