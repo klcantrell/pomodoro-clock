@@ -1,3 +1,13 @@
+@font-face {
+  font-family: 'Ribeye Marrow';
+  src: url('../fonts/RibeyeMarrow-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+}
+
 body, html {
   font-family: 'Ribeye Marrow', cursive;
   background: grey;
