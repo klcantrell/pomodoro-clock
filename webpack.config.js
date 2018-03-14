@@ -1,6 +1,7 @@
 const path = require('path'),
       HtmlWebpackPlugin = require('html-webpack-plugin'),
-      MinifyPlugin = require("babel-minify-webpack-plugin");
+      MinifyPlugin = require("babel-minify-webpack-plugin"),
+      CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -51,8 +52,8 @@ module.exports = {
           loader: "file-loader",
           options: {
             name: '[name].[ext]',
-            outputPath: 'fonts/'
-            // publicPath: ''
+            outputPath: 'fonts/',
+            // publicPath: 'https://s3.us-east-2.amazonaws.com/kals-pomodoro-clock/'
           }
         }
       }
@@ -66,5 +67,13 @@ module.exports = {
     new MinifyPlugin({}, {
       exclude: /node_modules/
     })
+    // new CompressionPlugin({
+    //   asset: "[path].gz[query]",
+    //   algorithm: "gzip",
+    //   test: /\.ttf$/,
+    //   threshold: 10240,
+    //   minRatio: 0.8,
+    //   deleteOriginalAssets: true
+    // })
   ]
 }

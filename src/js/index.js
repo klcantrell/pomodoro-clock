@@ -8,9 +8,7 @@ view.cacheDom();
 class MainTimer extends Timer {
 	constructor({minutesEl, secondsEl, messageEl, animator, breakTimer}) {
 		super({minutesEl, secondsEl, messageEl, animator});
-    this.deps = {
-			breakTimer: breakTimer
-		}
+    this.deps.breakTimer = breakTimer;
 	}
 
 	init(initValue) {
@@ -25,7 +23,7 @@ class MainTimer extends Timer {
 		} else {
 			this.toggleInProgress();
 			this.toggleMessage();
-      if (this.deps.breakTimer.minutesRemaining) {
+      if (this.deps.breakTimer.minutesRemaining > 0) {
         this.deps.animator.reverse(this.deps.breakTimer.minutesRemaining);
         this.deps.breakTimer.run();
       } else {
