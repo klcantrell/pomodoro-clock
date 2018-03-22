@@ -36,9 +36,10 @@ body, html {
   fill: hsla(337, 100%, 68%, 0.83);
 }
 
-#triangle {
+/* IE 11 does not support CSS transform on SVG */
+/* #triangle {
   transform-origin: 4px 290px;
-}
+} */
 
 .circle-minutes {
   fill: hsla(243, 100%, 62%, 0.47);
