@@ -45,6 +45,7 @@ module.exports = {
           },
           {
             loader: 'extract-loader',
+            // compatibility with webpack 4
             options: {
               publicPath: null
             }
